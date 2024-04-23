@@ -53,3 +53,11 @@ dkms.conf
 
 # Prebuilt libraries
 build/
+
+# Built binaries
+*-dynamic
+*-static
+*.bin
+
+# Emacs backup files
+*~
