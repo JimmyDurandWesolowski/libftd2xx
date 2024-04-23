@@ -1,12 +1,4 @@
-TOPDIR  := $(shell cd ..; cd ..; pwd)
+TOPDIR := $(realpath $(dir $(realpath $(firstword $(MAKEFILE_LIST))))/../../)
 include $(TOPDIR)/Rules.make
 
-APP = w32_simple
-
-all: $(APP)
-
-$(APP): main.c	
-	$(CC) main.c -o $(APP) $(CFLAGS) -g
-	
-clean:
-	-rm -f *.o ; rm $(APP)
+$(eval $(call app,w32_simple))

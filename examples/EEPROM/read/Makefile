@@ -1,12 +1,4 @@
-TOPDIR  := $(shell cd ..; cd ..; pwd)
+TOPDIR := $(realpath $(dir $(realpath $(firstword $(MAKEFILE_LIST))))/../../)
 include $(TOPDIR)/Rules.make
 
-APP = read
-
-all: $(APP)
-
-$(APP): main.c	
-	$(CC) main.c -o $(APP) $(CFLAGS)
-	
-clean:
-	-rm -f *.o ; rm $(APP)
+$(eval $(call app,read))

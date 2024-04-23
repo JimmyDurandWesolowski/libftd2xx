@@ -1,3 +1,5 @@
+include Rules.make
+
 SUBDIRS = \
 	BitMode \
 	EEPROM/erase \
@@ -18,14 +20,21 @@ SUBDIRS = \
 	W32/events \
 	W32/simple \
 	W32/timeouts \
-	write \
+	write
 
 all: subdirs
 
-subdirs:
-	for n in $(SUBDIRS); do "$(MAKE)" -C $$n || exit 1; done
+.PHONY: $(SUBDIRS)
 
-clean:
-	rm -f *.o *~
-	for n in $(SUBDIRS); do "$(MAKE)" -C $$n clean; done
-	
+MAKEFLAGS += --no-print-directory
+
+$(SUBDIRS):
+	$(Q)$(MAKE) -C $@
+
+%-clean:
+	$(Q)echo $@
+	$(Q)$(MAKE) -C $(subst -clean,,$@) clean
+
+subdirs: $(SUBDIRS)
+
+clean: $(foreach subdir,$(SUBDIRS),$(subdir)-clean)
